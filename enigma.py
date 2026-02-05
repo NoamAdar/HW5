@@ -24,50 +24,51 @@ class Enigma:
         if('A'<=c<='Z'):
             self.changeWeels()
             return c
+        elif ('a'<=c<='z'):
+            cnt[0] += 1
+            #stage 1
+            i = self.hash_map[c]
         
-        cnt[0] += 1
-        #stage 1
-        i = self.hash_map[c]
-    
-        #Stage 2
+            #Stage 2
 
-        wheelsValue = self.getWheelsValue()
+            wheelsValue = self.getWheelsValue()
 
-        if wheelsValue != 0:
-            i += wheelsValue
-        else:
-            i+=1
+            if wheelsValue != 0:
+                i += wheelsValue
+            else:
+                i+=1
 
-        #Stage 3
+            #Stage 3
 
-        i = i%26
+            i = i%26
 
-        #4
+            #4
 
-        for key, value in self.hash_map.items():
-            if value == i:
-                c1 = key
+            for key, value in self.hash_map.items():
+                if value == i:
+                    c1 = key
 
-        #5 
-        c2 = self.reflector_map[c1]
-        #6
-        i = self.hash_map[c2]
-        #7
-        if (wheelsValue != 0):
-            i -= wheelsValue
-        else:
-            i-=1
+            #5 
+            c2 = self.reflector_map[c1]
+            #6
+            i = self.hash_map[c2]
+            #7
+            if (wheelsValue != 0):
+                i -= wheelsValue
+            else:
+                i-=1
 
-        #8 
-        i = i%26
-        #9
+            #8 
+            i = i%26
+            #9
 
-        for key, value in self.hash_map.items():
-            if value == i:
-                c3 = key
+            for key, value in self.hash_map.items():
+                if value == i:
+                    c3 = key
 
-        return c3
-    
+            return c3
+        else: 
+            raise ValueError("A non letter char accepted in charEncrypt")
         
 
         
