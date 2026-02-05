@@ -2,7 +2,10 @@ import json
 
 class Enigma:
     def __init__(self, hash_map, wheels, reflector_map):
-        pass
+        self.hash_map = hash_map.copy()
+        self.wheels = wheels.copy()
+        self.reflector_map = reflector_map.copy()
+    
 
     def encrypt(self, message):
         counter = 0
