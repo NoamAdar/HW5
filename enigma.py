@@ -1,4 +1,6 @@
 import json
+import sys
+
 
 class JSONFileException(Exception):
     pass
@@ -105,3 +107,51 @@ def load_enigma_from_path(path):
         raise JSONFileException()
         
     
+
+
+def main():
+    args = sys.argv[1:]
+    params = {}
+    
+    if len(args) != 4 and len(args) != 6:
+        print("Usage: python3 enigma.py -c <config_file> -i <input_file> -o <output_file>", file=sys.stderr)
+        exit(1)
+
+    for index in range(0,len(args),2):
+        params[args[index]]=args[index+1]
+
+
+    try:
+        if '-c' not in params:
+            print("Usage: python3 enigma.py -c <config_file> -i <input_file> -o <output_file>", file=sys.stderr)
+            exit(1)
+
+        enigma = load_enigma_from_path(params['-c'])
+        
+        if '-i' not in params:
+            print("Usage: python3 enigma.py -c <config_file> -i <input_file> -o <output_file>", file=sys.stderr)
+            exit(1)
+
+        with open(params['-i'], 'r') as f_in:
+            messages = f_in.readlines()
+            encrypted_results = [enigma.encrypt(msg.strip('\n')) for msg in messages]
+
+        f_out = sys.stdout
+        if len(args) == 6:
+            if '-o' not in params:
+                print("Usage: python3 enigma.py -c <config_file> -i <input_file> -o <output_file>", file=sys.stderr)
+                exit(1)
+            f_out = open(params['-o'],'w')
+
+
+        f_out.write("\n".join(encrypted_results)+"\n")
+        
+        if len(args) == 6:
+            f_out.close()
+
+    except Exception:
+        print("The enigma script has encountered an error", file=sys.stderr)
+        exit(1)
+
+if __name__ == "__main__":
+    main()
