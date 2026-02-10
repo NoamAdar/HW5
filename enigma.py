@@ -5,6 +5,7 @@ class JSONFileException(Exception):
 
 class Enigma:
     def __init__(self, hash_map, wheels, reflector_map):
+        self.originalWheels = wheels.copy()
         self.hash_map = hash_map.copy()
         self.wheels = wheels.copy()
         self.reflector_map = reflector_map.copy()
@@ -14,20 +15,19 @@ class Enigma:
         counter = 0
         encryptMsg = ""
 
+        realEncryptedCnt = [0] 
+        # I Saved the counter as a list because I want to change it in other function scope
         for c in message:
-            realEncryptedCnt = [0] 
-            # I Saved the counter as a list because I want to change it in other function scope
+
             encryptMsg += self.charEncrypt(c,cnt = realEncryptedCnt)
             self.changeWheels(realEncryptedCnt[0])
+        #Reset Wheels
+        self.wheels = self.originalWheels.copy()
 
         return "".join(encryptMsg)
 
     def charEncrypt(self, c, cnt):
-        #need to check if c is a Latter and to Raise if not!!!!!
-        if('A'<=c<='Z'):
-            self.changeWeels()
-            return c
-        elif ('a'<=c<='z'):
+        if c.islower() == True:
             cnt[0] += 1
             #stage 1
             i = self.hash_map[c]
@@ -71,7 +71,7 @@ class Enigma:
 
             return c3
         else: 
-            raise ValueError("A non letter char accepted in charEncrypt")
+            return c
         
 
         
