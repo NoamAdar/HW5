@@ -12,7 +12,6 @@ class Enigma:
     
 
     def encrypt(self, message):
-        counter = 0
         encryptMsg = ""
 
         realEncryptedCnt = [0] 
@@ -24,7 +23,7 @@ class Enigma:
         #Reset Wheels
         self.wheels = self.originalWheels.copy()
 
-        return "".join(encryptMsg)
+        return encryptMsg
 
     def charEncrypt(self, c, cnt):
         if c.islower() == True:
