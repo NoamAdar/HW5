@@ -1,5 +1,8 @@
 import json
 
+class JSONFileException(Exception):
+    pass
+
 class Enigma:
     def __init__(self, hash_map, wheels, reflector_map):
         self.hash_map = hash_map.copy()
@@ -95,4 +98,11 @@ class Enigma:
     
 
 def load_enigma_from_path(path):
-    pass
+    try:
+        with open(path,'r') as file:
+            dir = json.load(file)
+        return Enigma(dir['hash_map'],dir['wheels'],dir['reflector_map'])
+    except:
+        raise JSONFileException()
+        
+    
