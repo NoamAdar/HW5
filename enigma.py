@@ -145,7 +145,7 @@ def main():
             f_out = open(params['-o'],'w')
 
 
-        f_out.write("\n".join(encrypted_results))
+        f_out.write("\n".join(encrypted_results)+"\n")
         
         if len(args) == 6:
             f_out.close()
